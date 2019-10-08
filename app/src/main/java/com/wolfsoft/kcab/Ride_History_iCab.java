@@ -20,10 +20,10 @@ public class Ride_History_iCab extends AppCompatActivity {
     Integer i1[]={R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black};
     Integer i2[]={R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted};
     Integer i3[]={R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue};
-    String txtmall[]={"Phoenix Market City","Phoenix Market City","Phoenix Market City","Phoenix Market City","Phoenix Market City"};
-    String txthome[]={"Home","Home","Home","Home","Home"};
-    String txtdate[]={"01 May 2018","01 May 2018","01 May 2018","01 May 2018","01 May 2018"};
-    String txtprice[]={"$2.94","$2.94","$2.94","$2.94","$2.94"};
+    String txtmall[]={"Ponto Rua São Paulo - FURB","Ponto SESI","Ponto IFSC","Ponto Sagrada Família","Ponto Ponte dos Arcos"};
+    String txthome[]={"Escola","Casa","Trabalho","Escola","Casa"};
+    String txtdate[]={"01 Maio 2018","10 Junho 2019","25 Julho 2019","21 Agosto 2018","30 Janeiro 2018"};
+    String txtprice[]={"R$1,50","R$1,50","R$4,30","$2.94","$2.94"};
 
 
     @Override
