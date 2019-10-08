@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wolfsoft.kcab">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Home_icab" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDFNnP_L1EQ2Sd4QHSRFH6gfn_XnwoSwFw" />
+
+        <activity android:name=".Login_icab" />
+        <activity android:name=".Sign_Up_icab" />
+        <activity android:name=".Ride_complete_rating_icab" />
+        <activity android:name=".Ride_History_iCab" />
+        <activity android:name=".Activity_list" />
+        <activity android:name=".Book_icab" />
+        <activity android:name=".In_Ride_icab" />
+        <activity android:name=".Menu_icab" />
+        <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Menu_icab1"></activity>
+    </application>
+
+</manifest>
