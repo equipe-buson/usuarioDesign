@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,23 +32,20 @@ public class Ride_History_iCab extends AppCompatActivity {
     private RecyclerView recyclerview;
     private ArrayList<RidehistoryModel> ridehistoryModelArrayList;
 
+
     Integer i1[]={R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black};
     Integer i2[]={R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted};
     Integer i3[]={R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue};
-//    String txtmall[]={"Ponto Rua São Paulo - FURB","Ponto SESI","Ponto IFSC","Ponto Sagrada Família","Ponto Ponte dos Arcos"};
-//    String txthome[]={"Escola","Casa","Trabalho","Escola","Casa"};
-//    String txtdate[]={"01 Maio 2018","10 Junho 2019","25 Julho 2019","21 Agosto 2018","30 Janeiro 2018"};
-//    String txtprice[]={"R$1,50","R$1,50","R$4,30","$2.94","$2.94"};
-        String txtmall[];
-   String txthome[];
-   String txtdate[];
-   String txtprice[];
+    String txtmall[]={"Ponto Rua São Paulo - FURB","Ponto SESI","Ponto IFSC","Ponto Sagrada Família","Ponto Ponte dos Arcos"};
+    String txthome[]={"Escola","Casa","Trabalho","Escola","Casa"};
+    String txtdate[]={"01 Maio 2018","10 Junho 2019","25 Julho 2019","21 Agosto 2018","30 Janeiro 2018"};
+    String txtprice[]={"R$1,50","R$1,50","R$4,30","$2.94","$2.94"};
 
-    FirebaseDatabase firebaseDatabase;
+
+
     DatabaseReference refPonto;
     DatabaseReference mRef;
 
-    final int i = 0;
 
     private void incializarFireBase() {
 
@@ -60,31 +59,31 @@ public class Ride_History_iCab extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride__history_i_cab);
 
+        ridehistoryModelArrayList = new ArrayList<>();
         incializarFireBase();
-        recyclerview=findViewById(R.id.recycler1);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(Ride_History_iCab.this);
+
+
+
+        recyclerview = findViewById(R.id.recycler1);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Ride_History_iCab.this);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
-
 
 
         refPonto.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot objSnapshot:dataSnapshot.getChildren()) {
-                    final String endereco = objSnapshot.child("endereco").getValue().toString();
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    final String loc = objSnapshot.child("endereco").getValue().toString();
                     final String latitude = objSnapshot.child("latitude").getValue().toString();
                     final String longitude = objSnapshot.child("longitude").getValue().toString();
-                    Log.d("TAG", "Value is " + endereco);
-                    Log.d("TAG", "Value é " + latitude);
-                    Log.d("TAG", "Value é " + longitude);
 
-                   txtmall[i] = endereco;
-                   txthome[i] = latitude;
-                   txtprice[i] = longitude;
-                   txtdate[i] = "01/01/2019";
+                    RidehistoryModel listModel = new RidehistoryModel(i1[1],i2[1],i3[1],loc,"",""," ");
+
+                    ridehistoryModelArrayList.add(listModel);
 
                 }
+
             }
 
             @Override
@@ -93,18 +92,10 @@ public class Ride_History_iCab extends AppCompatActivity {
             }
         });
 
-
-
-        ridehistoryModelArrayList = new ArrayList<>();
-
-        for (int i=0;i<i1.length;i++){
-
-            RidehistoryModel listModel = new RidehistoryModel(i1[i],i2[i],i3[i],txtmall[i],txthome[i],txtdate[i],txtprice[i]);
-
-            ridehistoryModelArrayList.add(listModel);
-
-        }
-        ridehistoryAdapter = new RidehistoryAdapter(Ride_History_iCab.this,ridehistoryModelArrayList);
+        ridehistoryAdapter = new RidehistoryAdapter(Ride_History_iCab.this, ridehistoryModelArrayList);
         recyclerview.setAdapter(ridehistoryAdapter);
     }
+
+
+
 }

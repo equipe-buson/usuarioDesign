@@ -9,6 +9,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="92.2dp"
         app:cardCornerRadius="5.8dp"
@@ -65,12 +66,12 @@
 
                 <customfonts.MyTextView_Roboto_Regular
                     android:id="@+id/txtmall"
-                    android:layout_width="wrap_content"
+                    android:layout_width="188dp"
                     android:layout_height="wrap_content"
-                    android:text="Phoenix Market City"
-                    android:textSize="13.4sp"
                     android:layout_marginLeft="14.3dp"
-                    android:textColor="#323643"/>
+                    android:text="Phoenix Market City"
+                    android:textColor="#323643"
+                    android:textSize="13.4sp" />
 
                 <customfonts.MyTextView_Roboto_Regular
                     android:id="@+id/txthome"
@@ -118,16 +119,17 @@
                     android:minHeight="10dp"
                     android:rating="3"
                     android:stepSize="0.2" />
+
                 <customfonts.MyTextView_Roboto_Regular
-                    android:layout_marginRight="10dp"
                     android:id="@+id/txtprice"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginTop="5.4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="5.4dp"
+                    android:layout_marginRight="10dp"
                     android:text="$2.94"
-                    android:textSize="13.4sp"
-                    android:textColor="#323643"/>
+                    android:textColor="#323643"
+                    android:textSize="13.4sp" />
 
             </LinearLayout>
 
