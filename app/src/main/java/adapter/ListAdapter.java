@@ -2,8 +2,8 @@ package adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import com.wolfsoft.kcab.Book_icab;
 import com.wolfsoft.kcab.Home_icab;
 import com.wolfsoft.kcab.In_Ride_icab;
 import com.wolfsoft.kcab.Login_icab;
-import com.wolfsoft.kcab.Menu_icab;
 import com.wolfsoft.kcab.Menu_icab1;
 import com.wolfsoft.kcab.R;
 import com.wolfsoft.kcab.Ride_History_iCab;
