@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDFNnP_L1EQ2Sd4QHSRFH6gfn_XnwoSwFw" />
+            android:value="AIzaSyA8QpDOUhWD7dSq5m6A1ox9gsW22Mxz-r0" />
 
         <activity android:name=".Login_icab" />
         <activity android:name=".Sign_Up_icab" />

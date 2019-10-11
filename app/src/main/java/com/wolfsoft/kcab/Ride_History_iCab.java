@@ -1,12 +1,19 @@
 package com.wolfsoft.kcab;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,20 +38,25 @@ public class Ride_History_iCab extends AppCompatActivity {
     private RidehistoryAdapter ridehistoryAdapter;
     private RecyclerView recyclerview;
     private ArrayList<RidehistoryModel> ridehistoryModelArrayList;
-
+    public View card;
 
     Integer i1[]={R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black};
     Integer i2[]={R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted};
     Integer i3[]={R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue,R.drawable.navigatiob_blue};
-    String txtmall[]={"Ponto Rua São Paulo - FURB","Ponto SESI","Ponto IFSC","Ponto Sagrada Família","Ponto Ponte dos Arcos"};
-    String txthome[]={"Escola","Casa","Trabalho","Escola","Casa"};
-    String txtdate[]={"01 Maio 2018","10 Junho 2019","25 Julho 2019","21 Agosto 2018","30 Janeiro 2018"};
-    String txtprice[]={"R$1,50","R$1,50","R$4,30","$2.94","$2.94"};
+//    String txtmall[]={"Ponto Rua São Paulo - FURB","Ponto SESI","Ponto IFSC","Ponto Sagrada Família","Ponto Ponte dos Arcos"};
+//    String txthome[]={"Escola","Casa","Trabalho","Escola","Casa"};
+//    String txtdate[]={"01 Maio 2018","10 Junho 2019","25 Julho 2019","21 Agosto 2018","30 Janeiro 2018"};
+//    String txtprice[]={"R$1,50","R$1,50","R$4,30","$2.94","$2.94"};
 
 
 
     DatabaseReference refPonto;
     DatabaseReference mRef;
+
+    private static final int REQUEST_CODE_PERMISSION = 2;
+    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+
+
 
 
     private void incializarFireBase() {
@@ -54,20 +66,56 @@ public class Ride_History_iCab extends AppCompatActivity {
         refPonto =mRef.child("Pontos");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride__history_i_cab);
 
+
+
         ridehistoryModelArrayList = new ArrayList<>();
         incializarFireBase();
-
-
 
         recyclerview = findViewById(R.id.recycler1);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Ride_History_iCab.this);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
+
+        try {
+            if (ActivityCompat.checkSelfPermission(this, mPermission)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{mPermission},
+                        REQUEST_CODE_PERMISSION);
+
+                // If any permission above not allowed by user, this condition will
+                // execute every time, else your else part will work
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        GPSTracker gps = new GPSTracker(Ride_History_iCab.this);
+
+        // check if GPS enabled
+        if(gps.canGetLocation()){
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+            // \n is for new line
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
+                    + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            Log.d("TAG", String.valueOf(longitude));
+            Log.d("TAG", String.valueOf(longitude));
+        }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+
 
 
         refPonto.addValueEventListener(new ValueEventListener() {
@@ -95,6 +143,8 @@ public class Ride_History_iCab extends AppCompatActivity {
         ridehistoryAdapter = new RidehistoryAdapter(Ride_History_iCab.this, ridehistoryModelArrayList);
         recyclerview.setAdapter(ridehistoryAdapter);
     }
+
+
 
 
 
