@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,7 +39,7 @@ public class Ride_History_iCab extends AppCompatActivity {
     private RidehistoryAdapter ridehistoryAdapter;
     private RecyclerView recyclerview;
     private ArrayList<RidehistoryModel> ridehistoryModelArrayList;
-    public View card;
+
 
     Integer i1[]={R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black};
     Integer i2[]={R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted,R.drawable.rect_dotted};
@@ -110,9 +111,6 @@ public class Ride_History_iCab extends AppCompatActivity {
             Log.d("TAG", String.valueOf(longitude));
             Log.d("TAG", String.valueOf(longitude));
         }else{
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
             gps.showSettingsAlert();
         }
 
@@ -123,8 +121,9 @@ public class Ride_History_iCab extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
                     final String loc = objSnapshot.child("endereco").getValue().toString();
-                    final String latitude = objSnapshot.child("latitude").getValue().toString();
+                    final String latitude =  objSnapshot.child("latitude").getValue().toString();
                     final String longitude = objSnapshot.child("longitude").getValue().toString();
+
 
                     RidehistoryModel listModel = new RidehistoryModel(i1[1],i2[1],i3[1],loc,"",""," ");
 

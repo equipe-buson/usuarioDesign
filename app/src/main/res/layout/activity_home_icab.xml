@@ -55,11 +55,11 @@
                 android:layout_marginLeft="18dp"
                 android:background="#00000000"
                 android:textColorHint="#000000"
-                android:inputType="text"
+                android:inputType="textAutoComplete"
                 android:textSize="13.4sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter Location"/>
+                android:hint="Selecione a rua de origem"/>
 
         </LinearLayout>
 
@@ -82,7 +82,7 @@
             <customfonts.MyTextView_Roboto_Regular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="iCab"
+                android:text="BusON"
                 android:layout_gravity="center"
                 android:textSize="17.3sp"
                 android:textColor="#323643"/>
