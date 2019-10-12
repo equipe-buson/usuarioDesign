@@ -3,13 +3,20 @@ package adapter;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.wolfsoft.kcab.Home_icab;
 import com.wolfsoft.kcab.R;
+import com.wolfsoft.kcab.Ride_History_iCab;
 
 import java.util.ArrayList;
 
@@ -21,11 +28,18 @@ import model.RidehistoryModel;
 
 public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.ViewHolder> {
     Context context;
-    private ArrayList<RidehistoryModel> ridehistoryModelArrayList;
 
-    public RidehistoryAdapter(Context context, ArrayList<RidehistoryModel> ridehistoryModelArrayList) {
+    public ArrayList<RidehistoryModel> getRidehistoryModelArrayList() {
+        return ridehistoryModelArrayList;
+    }
+
+    private ArrayList<RidehistoryModel> ridehistoryModelArrayList;
+    private AdapterView.OnItemClickListener listener;
+
+    public RidehistoryAdapter(Context context, ArrayList<RidehistoryModel> ridehistoryModelArrayList, AdapterView.OnItemClickListener listener) {
         this.context = context;
         this.ridehistoryModelArrayList = ridehistoryModelArrayList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -49,6 +63,7 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
 
     }
 
+
     @Override
     public int getItemCount() {
         return ridehistoryModelArrayList.size();
@@ -68,11 +83,13 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
             txthome=itemView.findViewById(R.id.txthome);
             txtdate=itemView.findViewById(R.id.txtdate);
             txtprice=itemView.findViewById(R.id.txtprice);
-
-
-
-
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("TAG", String.valueOf(getAdapterPosition()));
+                    Log.d("TAG", String.valueOf(ridehistoryModelArrayList.get(getAdapterPosition()).getTxtmall()));
+                }
+            });
         }
     }
 }

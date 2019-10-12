@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -138,8 +139,13 @@ public class Ride_History_iCab extends AppCompatActivity {
                 Log.w("TAG", "Failed to read value.", databaseError.toException());
             }
         });
+        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        ridehistoryAdapter = new RidehistoryAdapter(Ride_History_iCab.this, ridehistoryModelArrayList);
+            }
+        };
+        ridehistoryAdapter = new RidehistoryAdapter(Ride_History_iCab.this, ridehistoryModelArrayList, listener);
         recyclerview.setAdapter(ridehistoryAdapter);
     }
 
