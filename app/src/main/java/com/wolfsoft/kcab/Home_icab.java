@@ -2,37 +2,25 @@ package com.wolfsoft.kcab;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,15 +29,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import model.RidehistoryModel;
+import com.wolfsoft.kcab.rota.DrawMarker;
+import com.wolfsoft.kcab.rota.DrawRouteMaps;
 
 public class Home_icab extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
@@ -90,6 +80,7 @@ public class Home_icab extends AppCompatActivity  implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_icab);
         inicializarFireBase();
+        
 
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -156,6 +147,20 @@ public class Home_icab extends AppCompatActivity  implements NavigationView.OnNa
         mMap = googleMap;
 
         LatLng latLng = new LatLng(latitude,longitude);
+        LatLng origin = new LatLng(-26.905171, -49.076991);
+        LatLng destination = new LatLng(-26.919546, -48.878269);
+        DrawRouteMaps.getInstance(this)
+                .draw(origin, destination, mMap);
+        DrawMarker.getInstance(this).draw(mMap, origin, R.drawable.marker_a, "Origin Location");
+        DrawMarker.getInstance(this).draw(mMap, destination, R.drawable.marker_b, "Destination Location");
+
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                .include(origin)
+                .include(destination).build();
+        Point displaySize = new Point();
+        getWindowManager().getDefaultDisplay().getSize(displaySize);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, 250, 30));
+
 
 
 
@@ -168,12 +173,12 @@ public class Home_icab extends AppCompatActivity  implements NavigationView.OnNa
 
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
 
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                latLng).zoom(16).build();
+      //  CameraPosition cameraPosition = new CameraPosition.Builder().target(
+        //        latLng).zoom(16).build();
 
 
-        googleMap.animateCamera(
-                CameraUpdateFactory.newCameraPosition(cameraPosition));
+       // googleMap.animateCamera(
+       //         CameraUpdateFactory.newCameraPosition(cameraPosition));
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         setToolbar();
