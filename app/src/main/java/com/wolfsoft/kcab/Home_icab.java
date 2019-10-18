@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -24,12 +25,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
@@ -41,7 +43,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.wolfsoft.kcab.rota.DrawMarker;
 import com.wolfsoft.kcab.rota.DrawRouteMaps;
 
-public class Home_icab extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
+
+public class Home_icab extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener {
 
 
     private double radius = 2000;
@@ -66,6 +70,9 @@ public class Home_icab extends AppCompatActivity  implements NavigationView.OnNa
     private Toolbar toolbar;
     DatabaseReference refPonto;
     DatabaseReference mRef;
+
+    Marker marcadorPonto;
+
 
     private void inicializarFireBase() {
 
@@ -123,21 +130,36 @@ public class Home_icab extends AppCompatActivity  implements NavigationView.OnNa
 
                     LatLng latLng = new LatLng(latitude,longitude);
 
-                    MarkerOptions marcadorPonto = new MarkerOptions()
+                    marcadorPonto = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black))
-                            .title(loc);
-                    mMap.addMarker(marcadorPonto);
+                            .title(loc)
+                            .draggable(true));
+
                 }
 
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w("TAG", "Failed to read value.", databaseError.toException());
             }
+
         });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getContext(),"YOU CLICKED ON "+marker.getTitle(),Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+        }
+        );
     }
+
+
 
 
     @SuppressLint("MissingPermission")
@@ -291,4 +313,8 @@ public class Home_icab extends AppCompatActivity  implements NavigationView.OnNa
 
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
 }
