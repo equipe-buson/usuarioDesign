@@ -1,5 +1,7 @@
 package com.wolfsoft.kcab.rota;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -37,11 +39,30 @@ public class DataRouteParser {
             /** Traversing all routes */
             for (int i = 0; i < jRoutes.length(); i++) {
                 jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+
+                JSONObject jsonLeg = jLegs.getJSONObject(i);
+                JSONObject jsonDistance = jsonLeg.getJSONObject("distance");
+                JSONObject jsonDuration = jsonLeg.getJSONObject("duration");
+                JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
+                JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
+                String distance = jsonDistance.getString("text");
+
+
+
+
+//                route.distance = new Distance(jsonDistance.getString("text"), jsonDistance.getInt("value"));
+//                route.duration = new Duration(jsonDuration.getString("text"), jsonDuration.getInt("value"));
+//                route.endAddress = jsonLeg.getString("end_address");
+//                route.startAddress = jsonLeg.getString("start_address");
+//                route.startLocation = new LatLng(jsonStartLocation.getDouble("lat"), jsonStartLocation.getDouble("lng"));
+//                route.endLocation = new LatLng(jsonEndLocation.getDouble("lat"), jsonEndLocation.getDouble("lng"));
+
                 List path = new ArrayList<>();
 
                 /** Traversing all legs */
                 for (int j = 0; j < jLegs.length(); j++) {
                     jSteps = ((JSONObject) jLegs.get(j)).getJSONArray("steps");
+
 
                     /** Traversing all steps */
                     for (int k = 0; k < jSteps.length(); k++) {

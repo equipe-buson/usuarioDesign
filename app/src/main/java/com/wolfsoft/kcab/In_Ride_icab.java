@@ -39,7 +39,6 @@ public class In_Ride_icab extends AppCompatActivity  implements OnMapReadyCallba
                 .findFragmentById(R.id.googleMap);
         mapFragment.getMapAsync(this);
 
-
     }
 
     @Override
@@ -62,9 +61,6 @@ public class In_Ride_icab extends AppCompatActivity  implements OnMapReadyCallba
 
 
         LatLng latLng = new LatLng(-7.788969, 110.338382);
-
-        double lat = -7.788969;
-        double lng = 110.338382;
 
 
 //        googleMap.addCircle(new CircleOptions()

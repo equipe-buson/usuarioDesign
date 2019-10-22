@@ -2,6 +2,7 @@ package com.wolfsoft.kcab;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +45,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.wolfsoft.kcab.rota.DrawMarker;
 import com.wolfsoft.kcab.rota.DrawRouteMaps;
 
+import java.util.ArrayList;
+
+import model.PontosModel;
+
 import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
 
 public class Home_icab extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener {
@@ -72,13 +78,14 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     DatabaseReference mRef;
 
     Marker marcadorPonto;
+    public ArrayList<PontosModel> pontosModelArrayList;
 
 
     private void inicializarFireBase() {
 
         FirebaseApp.initializeApp(Home_icab.this);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginfire-23a07.firebaseio.com/");
-        refPonto =mRef.child("Pontos");
+        refPonto =mRef.child("Blumenau-Ilhota");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -87,7 +94,16 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_icab);
         inicializarFireBase();
-        
+        pontosModelArrayList = new ArrayList<>();
+
+        Button button = (Button) findViewById(R.id.btnRota);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home_icab.this, Ride_History_iCab.class);
+                Home_icab.this.startActivity(intent);
+            }
+        });
 
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -128,6 +144,8 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
                     final Double latitude = (Double) objSnapshot.child("latitude").getValue();
                     final Double longitude = (Double) objSnapshot.child("longitude").getValue();
 
+                    pontosModelArrayList.add(new PontosModel(loc,latitude,longitude));
+
                     LatLng latLng = new LatLng(latitude,longitude);
 
                     marcadorPonto = mMap.addMarker(new MarkerOptions()
@@ -148,15 +166,7 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
 
         });
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getContext(),"YOU CLICKED ON "+marker.getTitle(),Toast.LENGTH_LONG).show();
-                return false;
-            }
 
-        }
-        );
     }
 
 
@@ -230,6 +240,14 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
 
 
 
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getContext(),"YOU CLICKED ON "+marker.getId(),Toast.LENGTH_LONG).show();
+                return true;
+            }
+        }
+        );
 
     }
     @Override
@@ -281,15 +299,10 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
         toolbar.findViewById(R.id.navigation_menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.e("Click", "keryu");
-
                 if (drawer.isDrawerOpen(navigationView)) {
                     drawer.closeDrawer(navigationView);
                 } else {
                     drawer.openDrawer(navigationView);
-
-                    Log.e("abc","abc");
                 }
             }
         });
@@ -303,8 +316,6 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
-
     }
 
 

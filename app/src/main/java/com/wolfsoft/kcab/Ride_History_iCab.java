@@ -33,13 +33,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import adapter.RidehistoryAdapter;
+import model.PontosModel;
 import model.RidehistoryModel;
 
-public class Ride_History_iCab extends AppCompatActivity {
+public class  Ride_History_iCab extends AppCompatActivity {
 
     private RidehistoryAdapter ridehistoryAdapter;
     private RecyclerView recyclerview;
-    private ArrayList<RidehistoryModel> ridehistoryModelArrayList;
+    public ArrayList<RidehistoryModel> ridehistoryModelArrayList;
+
 
 
     Integer i1[]={R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black,R.drawable.pin_black};
@@ -65,7 +67,7 @@ public class Ride_History_iCab extends AppCompatActivity {
 
         FirebaseApp.initializeApp(Ride_History_iCab.this);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginfire-23a07.firebaseio.com/");
-        refPonto =mRef.child("Pontos");
+        refPonto =mRef.child("Linhas");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -77,6 +79,7 @@ public class Ride_History_iCab extends AppCompatActivity {
 
 
         ridehistoryModelArrayList = new ArrayList<>();
+
         incializarFireBase();
 
         recyclerview = findViewById(R.id.recycler1);
@@ -120,14 +123,11 @@ public class Ride_History_iCab extends AppCompatActivity {
         refPonto.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    final String loc = objSnapshot.child("endereco").getValue().toString();
-                    final String latitude =  objSnapshot.child("latitude").getValue().toString();
-                    final String longitude = objSnapshot.child("longitude").getValue().toString();
 
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    final String loc = objSnapshot.child("nome").getValue().toString();
 
                     RidehistoryModel listModel = new RidehistoryModel(i1[1],i2[1],i3[1],loc,"",""," ");
-
                     ridehistoryModelArrayList.add(listModel);
 
                 }

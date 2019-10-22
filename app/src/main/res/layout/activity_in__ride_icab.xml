@@ -118,11 +118,12 @@
                         <customfonts.MyTextView_Roboto_Regular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Distance"
+                            android:text="Distancia"
                             android:textColor="#99606470"
                             android:textSize="11.5sp"/>
 
                         <customfonts.MyTextView_Roboto_Regular
+                            android:id="@+id/duration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4.2 mi"
@@ -140,11 +141,12 @@
                         <customfonts.MyTextView_Roboto_Regular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Price"
+                            android:text="Tempo"
                             android:textColor="#99606470"
                             android:textSize="11.5sp"/>
 
                         <customfonts.MyTextView_Roboto_Regular
+                            android:id="@+id/time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$5.99"

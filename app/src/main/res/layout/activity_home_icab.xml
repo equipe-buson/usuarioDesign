@@ -50,16 +50,38 @@
                 android:layout_height="17dp"
                 android:src="@drawable/pin_black"/>
 
-            <customfonts.EditText__SF_Pro_Display_Regular
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="18dp"
-                android:background="#00000000"
-                android:textColorHint="#000000"
-                android:inputType="textAutoComplete"
-                android:textSize="13.4sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Selecione a rua de origem"/>
+<!--            <Spinner-->
+<!--                android:layout_width="221dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginLeft="18dp"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:background="#00000000"-->
+<!--                android:hint="Selecione a rua de origem"-->
+<!--                android:textColorHint="#000000"-->
+<!--                android:textSize="13.4sp" />-->
+            <customfonts.Button_Roboto_Regular
+                android:id="@+id/btnRota"
+                android:layout_width="266dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/bg_clolor"
+                android:text="Selecione a Rota"
+                >
+
+            </customfonts.Button_Roboto_Regular>
+
+
+            <!--            <customfonts.EditText__SF_Pro_Display_Regular-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:layout_marginLeft="18dp"-->
+<!--                android:background="#00000000"-->
+<!--                android:textColorHint="#000000"-->
+<!--                android:textSize="13.4sp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Selecione a rua de origem"/>-->
+
 
         </LinearLayout>
 
