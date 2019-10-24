@@ -13,6 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logobuson"
         android:supportsRtl="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Home_icab" />
 
@@ -28,6 +30,7 @@
         <activity android:name=".Book_icab" />
         <activity android:name=".In_Ride_icab" />
         <activity android:name=".Menu_icab" />
+        <activity android:name=".Home_Travel" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.wolfsoft.kcab.Home_icab;
+import com.wolfsoft.kcab.Home_Travel;
 import com.wolfsoft.kcab.R;
-import com.wolfsoft.kcab.Ride_History_iCab;
 
 import java.util.ArrayList;
 
@@ -29,12 +27,29 @@ import model.RidehistoryModel;
 public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.ViewHolder> {
     Context context;
 
+    private int posicao;
+
+
+
+    public static int rota;
+
+
+
+    public int getPosicao() {
+        return posicao;
+    }
+
+
+
     public ArrayList<RidehistoryModel> getRidehistoryModelArrayList() {
         return ridehistoryModelArrayList;
     }
 
-    private ArrayList<RidehistoryModel> ridehistoryModelArrayList;
+    public ArrayList<RidehistoryModel> ridehistoryModelArrayList;
     private AdapterView.OnItemClickListener listener;
+    public RidehistoryAdapter(){
+    }
+
 
     public RidehistoryAdapter(Context context, ArrayList<RidehistoryModel> ridehistoryModelArrayList, AdapterView.OnItemClickListener listener) {
         this.context = context;
@@ -58,9 +73,6 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
         holder.txthome.setText(ridehistoryModelArrayList.get(position).getTxthome());
         holder.txtdate.setText(ridehistoryModelArrayList.get(position).getTxtdate());
         holder.txtprice.setText(ridehistoryModelArrayList.get(position).getTxtprice());
-
-
-
     }
 
 
@@ -86,10 +98,16 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("TAG", String.valueOf(getAdapterPosition()));
-                    Log.d("TAG", String.valueOf(ridehistoryModelArrayList.get(getAdapterPosition()).getTxtmall()));
+                    posicao = getAdapterPosition();
+                    rota = Integer.parseInt(ridehistoryModelArrayList.get(getAdapterPosition()).getTxthome());
+                    Intent intent = new Intent(context, Home_Travel.class);
+                    context.startActivity(intent);
                 }
             });
         }
     }
+    public static int getRota() {
+        return rota;
+    }
 }
+

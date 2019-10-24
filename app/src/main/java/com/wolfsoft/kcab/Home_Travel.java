@@ -31,7 +31,6 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -53,7 +52,7 @@ import model.PontosModel;
 
 import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
 
-public class Home_icab extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener {
+public class Home_Travel extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener {
 
 
     private double radius = 2000;
@@ -70,9 +69,10 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
 
     double latitudeUser;
     double longitudeUser;
+    public LatLng latLngUser;
 
-    public Marker markerOnibus;
-
+    public LatLng origin;
+    public LatLng destination;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
@@ -82,28 +82,39 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     DatabaseReference refPonto;
     DatabaseReference mRef;
 
+    Marker marcadorPonto;
+    public ArrayList<PontosModel> pontosModelArrayList;
+    public RidehistoryAdapter ridehistoryAdapter = new RidehistoryAdapter();
 
 
 
-    public void inicializarFireBase() {
-        FirebaseApp.initializeApp(Home_icab.this);
-        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginfire-23a07.firebaseio.com/");
-        refPonto = mRef.child("motorista");
+
+
+    public void setRefPonto(String referencia) {
+        refPonto = mRef.child(referencia);
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_icab);
-        inicializarFireBase();
+        setContentView(R.layout.activity_home_travel);
+
+        pontosModelArrayList = new ArrayList<>();
+
+
+
+
+
+
 
         Button button = (Button) findViewById(R.id.btnRota);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Home_icab.this, Ride_History_iCab.class);
-                Home_icab.this.startActivity(intent);
+                Intent intent = new Intent(Home_Travel.this, Ride_History_iCab.class);
+                Home_Travel.this.startActivity(intent);
             }
         });
 
@@ -111,6 +122,7 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.googleMap);
         mapFragment.getMapAsync(this);
+
 
         try {
             if (ActivityCompat.checkSelfPermission(this, mPermission)
@@ -126,7 +138,7 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
             e.printStackTrace();
         }
 
-        GPSTracker gps = new GPSTracker(Home_icab.this);
+        GPSTracker gps = new GPSTracker(Home_Travel.this);
 
         // check if GPS enabled
         if(gps.canGetLocation()){
@@ -137,36 +149,8 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
         }else{
             gps.showSettingsAlert();
         }
-        if (refPonto != null) {
-            refPonto.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                        final String linhaOnibus = objSnapshot.child("linha").getValue().toString();
-                        final Double latitudeOnibus = (Double) objSnapshot.child("latitude").getValue();
-                        final Double longitudeOnibus = (Double) objSnapshot.child("longitude").getValue();
-                        LatLng coordenadaOnibus = new LatLng(latitudeOnibus,longitudeOnibus);
-
-                        if (markerOnibus != null){
-
-                        }
-                        MarkerOptions markerOptions = new MarkerOptions().title(linhaOnibus).position(coordenadaOnibus).icon(BitmapDescriptorFactory.defaultMarker());
-                        mMap.addMarker(markerOptions);
 
 
-                    }
-
-                }
-
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.w("TAG", "Failed to read value.", databaseError.toException());
-                }
-
-            });
-
-        }
     }
 
 
@@ -176,15 +160,30 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-
         mMap = googleMap;
+        origin = new LatLng(-26.927245, -48.964658);
+        destination = new LatLng(-26.927576, -48.932459);
 
-        LatLng latLng = new LatLng(latitudeUser,longitudeUser);
+        latLngUser = new LatLng(latitudeUser,longitudeUser);
+
+
+        DrawRouteMaps.getInstance(this)
+                    .draw(origin, destination, mMap);
+            DrawMarker.getInstance(this).draw(mMap, origin, R.drawable.marker_a, "Origin Location");
+            DrawMarker.getInstance(this).draw(mMap, destination, R.drawable.marker_b, "Destination Location");
+
+            LatLngBounds bounds = new LatLngBounds.Builder()
+                    .include(origin)
+                    .include(destination).build();
+            Point displaySize = new Point();
+            getWindowManager().getDefaultDisplay().getSize(displaySize);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, 250, 30));
+
 
 
 
         // create marker
-        MarkerOptions marker = new MarkerOptions().position(latLng).title("Set Pickup Point");
+        MarkerOptions marker = new MarkerOptions().position(latLngUser).title("Set Pickup Point");
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.location));
         // adding marker
         googleMap.addMarker(marker);
@@ -192,12 +191,12 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
 
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
 
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(
-               latLng).zoom(16).build();
+      //  CameraPosition cameraPosition = new CameraPosition.Builder().target(
+        //        latLng).zoom(16).build();
 
 
-        googleMap.animateCamera(
-                CameraUpdateFactory.newCameraPosition(cameraPosition));
+       // googleMap.animateCamera(
+       //         CameraUpdateFactory.newCameraPosition(cameraPosition));
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         setToolbar();
@@ -227,11 +226,11 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
 
 
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Log.d("TAG","Marcador clicado");
-              return true;
+                Toast.makeText(getContext(),"YOU CLICKED ON "+marker.getId(),Toast.LENGTH_LONG).show();
+                return true;
             }
         }
         );
@@ -314,6 +313,45 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onMarkerClick(Marker marker) {
         return false;
+    }
+
+
+
+
+    public void selecionaRota(String rota){
+        FirebaseApp.initializeApp(Home_Travel.this);
+        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginfire-23a07.firebaseio.com/");
+        refPonto = mRef.child(rota);
+        refPonto.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    final String enderecoPonto = objSnapshot.child("endereco").getValue().toString();
+                    final Double latitudePonto = (Double) objSnapshot.child("latitude").getValue();
+                    final Double longitudePonto = (Double) objSnapshot.child("longitude").getValue();
+
+                    pontosModelArrayList.add(new PontosModel(enderecoPonto, latitudePonto, longitudePonto));
+
+                    LatLng latLngPonto = new LatLng(latitudePonto, longitudePonto);
+
+                    marcadorPonto = mMap.addMarker(new MarkerOptions()
+                            .position(latLngPonto)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black))
+                            .title(enderecoPonto)
+                            .draggable(true));
+
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("TAG", "Failed to read value.", databaseError.toException());
+            }
+
+        });
+
     }
 
 
