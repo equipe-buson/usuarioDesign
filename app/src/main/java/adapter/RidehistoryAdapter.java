@@ -100,6 +100,7 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
                 public void onClick(View v) {
                     posicao = getAdapterPosition();
                     rota = Integer.parseInt(ridehistoryModelArrayList.get(getAdapterPosition()).getTxthome());
+                    Log.d("TAG","Click na adapter:" + rota);
                     Intent intent = new Intent(context, Home_Travel.class);
                     context.startActivity(intent);
                 }

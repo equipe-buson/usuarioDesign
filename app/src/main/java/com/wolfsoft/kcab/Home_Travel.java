@@ -31,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -71,8 +72,6 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
     double longitudeUser;
     public LatLng latLngUser;
 
-    public LatLng origin;
-    public LatLng destination;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
@@ -161,42 +160,24 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        origin = new LatLng(-26.927245, -48.964658);
-        destination = new LatLng(-26.927576, -48.932459);
 
         latLngUser = new LatLng(latitudeUser,longitudeUser);
+        selecionaRota();
 
-
-        DrawRouteMaps.getInstance(this)
-                    .draw(origin, destination, mMap);
-            DrawMarker.getInstance(this).draw(mMap, origin, R.drawable.marker_a, "Origin Location");
-            DrawMarker.getInstance(this).draw(mMap, destination, R.drawable.marker_b, "Destination Location");
-
-            LatLngBounds bounds = new LatLngBounds.Builder()
-                    .include(origin)
-                    .include(destination).build();
-            Point displaySize = new Point();
-            getWindowManager().getDefaultDisplay().getSize(displaySize);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, 250, 30));
-
-
-
-
-        // create marker
+        // cria marcador do usuario
         MarkerOptions marker = new MarkerOptions().position(latLngUser).title("Set Pickup Point");
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.location));
-        // adding marker
+        // add marker
         googleMap.addMarker(marker);
 
 
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
 
-      //  CameraPosition cameraPosition = new CameraPosition.Builder().target(
-        //        latLng).zoom(16).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(
+               latLngUser).zoom(16).build();
 
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-       // googleMap.animateCamera(
-       //         CameraUpdateFactory.newCameraPosition(cameraPosition));
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         setToolbar();
@@ -318,10 +299,30 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
 
 
 
-    public void selecionaRota(String rota){
+    public void selecionaRota(){
         FirebaseApp.initializeApp(Home_Travel.this);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginfire-23a07.firebaseio.com/");
-        refPonto = mRef.child(rota);
+        int rota = ridehistoryAdapter.getRota();
+        String ref = "";
+        LatLng origin;
+        LatLng destination;
+            if (rota == 1) {
+                ref = "Blumenau-Ilhota";
+                origin = new LatLng(-26.910984,-48.86465);
+                destination = new LatLng(-26.947771,-48.931056);
+            }
+            if (rota == 2) {
+                ref = "Ilhota-Blumenau";
+            }
+            if (rota == 3) {
+                ref = "Blumenau-Gaspar";
+            }
+            if (rota == 4) {
+                ref = "Gaspar-Blumenau";
+            }
+
+        Log.d("TAG", "ref: " + ref + " int rota:" + rota);
+        refPonto = mRef.child(ref);
         refPonto.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -352,6 +353,19 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
 
         });
 
+    }
+    public void desenhaRota(LatLng origin, LatLng destination){
+        DrawRouteMaps.getInstance(this)
+                .draw(origin, destination, mMap);
+        DrawMarker.getInstance(this).draw(mMap, origin, R.drawable.marker_a, "Origin Location");
+        DrawMarker.getInstance(this).draw(mMap, destination, R.drawable.marker_b, "Destination Location");
+
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                .include(origin)
+                .include(destination).build();
+        Point displaySize = new Point();
+        getWindowManager().getDefaultDisplay().getSize(displaySize);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, 250, 30));
     }
 
 
