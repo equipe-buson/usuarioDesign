@@ -311,24 +311,26 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                 ref = "Blumenau-Ilhota";
                 origin = new LatLng(-26.906101, -49.077743);
                 destination = new LatLng(-26.910984,-48.86465);
-                waipoints = "via:-26.925929, -49.056093|via:-26.900647, -49.002456";
+                waipoints = "via:-26.925929,-49.056093|via:-26.900647,-49.002456";
 
             }
             if (rota == 2) {
                 ref = "Ilhota-Blumenau";
                 origin = new LatLng(-26.910706, -48.864301);
                 destination = new LatLng(-26.904585,-49.077374);
+                waipoints = "via:-26.930839,-48.934213|via:-26.900647,-49.002456";
             }
             if (rota == 3) {
                 ref = "Blumenau-Gaspar";
                 origin = new LatLng(-26.906101, -49.077743);
                 destination = new LatLng(-26.947771,-48.931056);
-                waipoints = "via:-26.925929, -49.056093|via:-26.900647, -49.002456";
+                waipoints = "via:-26.925929,-49.056093|via:-26.900647,-49.002456";
             }
             if (rota == 4) {
                 ref = "Gaspar-Blumenau";
                 origin = new LatLng(-26.955587,-48.926634);
                 destination = new LatLng(-26.904585,-49.077374);
+                waipoints = "via:-26.900652, -49.002985";
             }
             desenhaRota(origin,destination,waipoints);
 
