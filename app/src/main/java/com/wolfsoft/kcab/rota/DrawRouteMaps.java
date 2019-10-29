@@ -18,8 +18,8 @@ public class DrawRouteMaps {
         return instance;
     }
 
-    public com.wolfsoft.kcab.rota.DrawRouteMaps draw(LatLng origin, LatLng destination, GoogleMap googleMap){
-        String url_route = FetchUrl.getUrl(origin, destination);
+    public com.wolfsoft.kcab.rota.DrawRouteMaps draw(LatLng origin, LatLng destination, GoogleMap googleMap, String waipoints){
+        String url_route = FetchUrl.getUrl(origin, destination, waipoints);
         com.wolfsoft.kcab.rota.DrawRoute drawRoute = new com.wolfsoft.kcab.rota.DrawRoute(googleMap);
         drawRoute.execute(url_route);
         Log.d("TAG",url_route);

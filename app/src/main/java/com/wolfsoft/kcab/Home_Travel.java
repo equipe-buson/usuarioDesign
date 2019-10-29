@@ -306,10 +306,13 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         String ref = "";
         LatLng origin = new LatLng(0,0);
         LatLng destination = new LatLng(0,0);
+        String waipoints = "";
             if (rota == 1) {
                 ref = "Blumenau-Ilhota";
-                origin = new LatLng(-26.910984,-48.86465);
-                destination = new LatLng(-26.947771,-48.931056);
+                origin = new LatLng(-26.906101, -49.077743);
+                destination = new LatLng(-26.910984,-48.86465);
+                waipoints = "via:-26.925929, -49.056093|via:-26.900647, -49.002456";
+
             }
             if (rota == 2) {
                 ref = "Ilhota-Blumenau";
@@ -318,15 +321,16 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
             }
             if (rota == 3) {
                 ref = "Blumenau-Gaspar";
-                origin = new LatLng(-26.910984,-48.86465);
+                origin = new LatLng(-26.906101, -49.077743);
                 destination = new LatLng(-26.947771,-48.931056);
+                waipoints = "via:-26.925929, -49.056093|via:-26.900647, -49.002456";
             }
             if (rota == 4) {
                 ref = "Gaspar-Blumenau";
                 origin = new LatLng(-26.955587,-48.926634);
                 destination = new LatLng(-26.904585,-49.077374);
             }
-            desenhaRota(origin,destination);
+            desenhaRota(origin,destination,waipoints);
 
         Log.d("TAG", "ref: " + ref + " int rota:" + rota);
         Log.d("TAG","origin: " + origin + " destiantion: " + destination);
@@ -362,8 +366,8 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         });
 
     }
-    public void desenhaRota(LatLng origin, LatLng destination){
-        DrawRouteMaps.getInstance(this).draw(origin, destination, mMap);
+    public void desenhaRota(LatLng origin, LatLng destination, String waipoints){
+        DrawRouteMaps.getInstance(this).draw(origin, destination, mMap, waipoints);
         DrawMarker.getInstance(this).draw(mMap, origin, R.drawable.marker_a, "Origin Location");
         DrawMarker.getInstance(this).draw(mMap, destination, R.drawable.marker_b, "Destination Location");
 
