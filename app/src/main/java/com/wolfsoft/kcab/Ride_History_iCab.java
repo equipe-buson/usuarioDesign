@@ -128,7 +128,7 @@ public class  Ride_History_iCab extends AppCompatActivity {
                     final String loc = objSnapshot.child("nome").getValue().toString();
                     final String valor = objSnapshot.child("valor").getValue().toString();
                     // valor = txthome       nome = txtxmall
-                    RidehistoryModel listModel = new RidehistoryModel(i1[1],i2[1],i3[1],loc,valor,""," ");
+                    RidehistoryModel listModel = new RidehistoryModel(i1[1],i2[1],i3[1],loc,valor);
                     ridehistoryModelArrayList.add(listModel);
 
                 }

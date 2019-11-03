@@ -66,7 +66,7 @@
 
 
                 <customfonts.MyTextView_Roboto_Regular
-                    android:id="@+id/txtmall"
+                    android:id="@+id/txtlinha"
                     android:layout_width="188dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="14.3dp"
@@ -74,15 +74,7 @@
                     android:textColor="#323643"
                     android:textSize="13.4sp" />
 
-                <customfonts.MyTextView_Roboto_Regular
-                    android:id="@+id/txthome"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="14.3dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home"
-                    android:textSize="13.4sp"
-                    android:textColor="#323643"/>
+
             </LinearLayout>
 
 
@@ -91,46 +83,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <customfonts.MyTextView_Roboto_Regular
-                    android:id="@+id/txtdate"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="15.4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="01 May 2018"
-                    android:textSize="13.4sp"
-                    android:textColor="#323643"/>
-                <RatingBar
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_gravity="center"
-                    android:id="@+id/rtbHighScore"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:progressTint="#ffba00"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:isIndicator="false"
-                    android:max="100"
-                    android:numStars="5"
-                    android:minHeight="10dp"
-                    android:rating="3"
-                    android:stepSize="0.2" />
-
-                <customfonts.MyTextView_Roboto_Regular
-                    android:id="@+id/txtprice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginTop="5.4dp"
-                    android:layout_marginRight="10dp"
-                    android:text="$2.94"
-                    android:textColor="#323643"
-                    android:textSize="13.4sp" />
 
             </LinearLayout>
 

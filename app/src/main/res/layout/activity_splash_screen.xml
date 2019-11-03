@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/wsdes_splash"/>
+            android:src="@drawable/logobuson550x888"/>
 
     </LinearLayout>
 
@@ -28,7 +28,7 @@
     <customfonts.TextViewSFProDisplayRegular
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UIUX DESIGN COMPANY"
+        android:text="By Equipe BusON"
         android:textColor="#000"
         android:gravity="center"
         android:layout_alignParentBottom="true"

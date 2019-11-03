@@ -69,10 +69,7 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
         holder.i1.setImageResource(ridehistoryModelArrayList.get(position).getI1());
         holder.i2.setImageResource(ridehistoryModelArrayList.get(position).getI2());
         holder.i3.setImageResource(ridehistoryModelArrayList.get(position).getI3());
-        holder.txtmall.setText(ridehistoryModelArrayList.get(position).getTxtmall());
-        holder.txthome.setText(ridehistoryModelArrayList.get(position).getTxthome());
-        holder.txtdate.setText(ridehistoryModelArrayList.get(position).getTxtdate());
-        holder.txtprice.setText(ridehistoryModelArrayList.get(position).getTxtprice());
+        holder.txtlinha.setText(ridehistoryModelArrayList.get(position).getTxtlinha());
     }
 
 
@@ -83,7 +80,7 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView i1,i2,i3;
-        TextView txtmall,txthome,txtdate,txtprice;
+        TextView txtlinha;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -91,18 +88,15 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
             i1=itemView.findViewById(R.id.i1);
             i2=itemView.findViewById(R.id.i2);
             i3=itemView.findViewById(R.id.i3);
-            txtmall=itemView.findViewById(R.id.txtmall);
-            txthome=itemView.findViewById(R.id.txthome);
-            txtdate=itemView.findViewById(R.id.txtdate);
-            txtprice=itemView.findViewById(R.id.txtprice);
+            txtlinha=itemView.findViewById(R.id.txtlinha);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    posicao = getAdapterPosition();
-                    rota = Integer.parseInt(ridehistoryModelArrayList.get(getAdapterPosition()).getTxthome());
+                    rota = Integer.parseInt(ridehistoryModelArrayList.get(getAdapterPosition()).getTxtvalor());
                     Log.d("TAG","Click na adapter:" + rota);
                     Intent intent = new Intent(context, Home_Travel.class);
                     context.startActivity(intent);
+
                 }
             });
         }

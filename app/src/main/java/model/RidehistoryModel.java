@@ -7,7 +7,7 @@ package model;
 public class RidehistoryModel {
 
     Integer i1,i2,i3;
-    String txtmall,txthome,txtdate,txtprice;
+    String txtlinha,txtvalor;
 
     public Integer getI1() {
         return i1;
@@ -33,45 +33,28 @@ public class RidehistoryModel {
         this.i3 = i3;
     }
 
-    public String getTxtmall() {
-        return txtmall;
+    public void setTxlinha(String txtlinha) {
+        this.txtlinha = txtlinha;
     }
 
-    public void setTxtmall(String txtmall) {
-        this.txtmall = txtmall;
+    public String getTxtlinha() {
+        return txtlinha;
     }
 
-    public String getTxthome() {
-        return txthome;
+
+    public String getTxtvalor() {
+        return txtvalor;
     }
 
-    public void setTxthome(String txthome) {
-        this.txthome = txthome;
+    public void setTxtvalor(String txtvalor) {
+        this.txtvalor = txtvalor;
     }
 
-    public String getTxtdate() {
-        return txtdate;
-    }
-
-    public void setTxtdate(String txtdate) {
-        this.txtdate = txtdate;
-    }
-
-    public String getTxtprice() {
-        return txtprice;
-    }
-
-    public void setTxtprice(String txtprice) {
-        this.txtprice = txtprice;
-    }
-
-    public RidehistoryModel(Integer i1, Integer i2, Integer i3, String txtmall, String txthome, String txtdate, String txtprice) {
+    public RidehistoryModel(Integer i1, Integer i2, Integer i3, String txtlinha, String txtvalor) {
         this.i1 = i1;
         this.i2 = i2;
         this.i3 = i3;
-        this.txtmall = txtmall;
-        this.txthome = txthome;
-        this.txtdate = txtdate;
-        this.txtprice = txtprice;
+        this.txtlinha = txtlinha;
+        this.txtvalor = txtvalor;
     }
 }

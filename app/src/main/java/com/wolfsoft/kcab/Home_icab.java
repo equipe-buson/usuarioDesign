@@ -83,8 +83,6 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     DatabaseReference mRef;
 
 
-
-
     public void inicializarFireBase() {
         FirebaseApp.initializeApp(Home_icab.this);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginfire-23a07.firebaseio.com/");
@@ -147,9 +145,6 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
                         final Double longitudeOnibus = (Double) objSnapshot.child("longitude").getValue();
                         LatLng coordenadaOnibus = new LatLng(latitudeOnibus,longitudeOnibus);
 
-                        if (markerOnibus != null){
-
-                        }
                         MarkerOptions markerOptions = new MarkerOptions().title(linhaOnibus).position(coordenadaOnibus).icon(BitmapDescriptorFactory.defaultMarker());
                         mMap.addMarker(markerOptions);
 

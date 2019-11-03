@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -48,12 +47,11 @@ import com.wolfsoft.kcab.rota.DrawRouteMaps;
 
 import java.util.ArrayList;
 
+import adapter.InfoWindowBusStopAdapter;
 import adapter.RidehistoryAdapter;
 import model.PontosModel;
 
-import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
-
-public class Home_Travel extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener {
+public class Home_Travel extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
 
     private double radius = 2000;
@@ -102,13 +100,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
 
         pontosModelArrayList = new ArrayList<>();
 
-
-
-
-
-
-
-        Button button = (Button) findViewById(R.id.btnRota);
+        Button button = findViewById(R.id.btnRota);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,13 +162,14 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         // add marker
         googleMap.addMarker(marker);
 
-
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(
                latLngUser).zoom(16).build();
 
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
 
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -206,17 +199,34 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         invalidateOptionsMenu();
 
 
-
+        final InfoWindowBusStopAdapter markerInfoWindowAdapter = new InfoWindowBusStopAdapter(getApplicationContext());
+        mMap.setInfoWindowAdapter(markerInfoWindowAdapter);
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getContext(),"YOU CLICKED ON "+marker.getId(),Toast.LENGTH_LONG).show();
+//                markerInfoWindowAdapter.getInfoContents(marker);
+                marker.showInfoWindow();
+                LatLng posicaoMarcador = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+                CameraPosition cameraPositionMarcador = new CameraPosition.Builder().target(
+                        posicaoMarcador).zoom(16).build();
+
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPositionMarcador));
                 return true;
             }
         }
         );
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Log.d("TAG", "info clicado");
+            }
+        });
+
+
+
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // toggle nav drawer on selecting action bar app icon/title
@@ -334,8 +344,6 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
             }
             desenhaRota(origin,destination,waipoints);
 
-        Log.d("TAG", "ref: " + ref + " int rota:" + rota);
-        Log.d("TAG","origin: " + origin + " destiantion: " + destination);
         refPonto = mRef.child(ref);
         refPonto.addValueEventListener(new ValueEventListener() {
             @Override
@@ -352,11 +360,8 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                     marcadorPonto = mMap.addMarker(new MarkerOptions()
                             .position(latLngPonto)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black))
-                            .title(enderecoPonto)
-                            .draggable(true));
-
+                            .title(enderecoPonto));
                 }
-
             }
 
 
@@ -382,5 +387,9 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
     }
 
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Log.d("TAG","info clicado");
+    }
 }
 
