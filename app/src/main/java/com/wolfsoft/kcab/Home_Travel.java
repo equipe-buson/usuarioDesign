@@ -157,7 +157,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         selecionaRota();
 
         // cria marcador do usuario
-        MarkerOptions marker = new MarkerOptions().position(latLngUser).title("Set Pickup Point");
+        final MarkerOptions marker = new MarkerOptions().position(latLngUser).title("Set Pickup Point");
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.location));
         // add marker
         googleMap.addMarker(marker);
@@ -168,6 +168,41 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                latLngUser).zoom(16).build();
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        refPonto = mRef.child("motorista");
+        refPonto.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                MarkerOptions markerOptions= new MarkerOptions().title("").position(new LatLng(0,0)).icon(BitmapDescriptorFactory.defaultMarker());
+
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    mMap.clear();
+                    final String enderecoOnibus = objSnapshot.child("nomeMotorista").getValue().toString();
+                    final Double latitudeOnibus = (Double) objSnapshot.child("latitude").getValue();
+                    final Double longitudeOnibus = (Double) objSnapshot.child("longitude").getValue();
+                    LatLng latLngOnibus = new LatLng(latitudeOnibus,longitudeOnibus);
+                    markerOptions.position(latLngOnibus).title(enderecoOnibus);
+                    Marker markerOnibus = mMap.addMarker(markerOptions);
+
+
+                    for (int i=0; i<pontosModelArrayList.size(); i++){
+                        LatLng locPonto = new LatLng(
+                                pontosModelArrayList.get(i).getLatitude(),
+                                pontosModelArrayList.get(i).getLogitude());
+                        String enderecoPonto = pontosModelArrayList.get(i).getEndereco();
+                        marcadorPonto = mMap.addMarker(new MarkerOptions()
+                                .position(locPonto)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black))
+                                .title(enderecoPonto));
+                    }
+
+
+                }}
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("TAG", "Failed to read value.", databaseError.toException());
+            }
+        });
 
 
 
@@ -217,13 +252,39 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         );
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
-                Log.d("TAG", "info clicado");
+            public void onInfoWindowClick(final Marker marker) {
+                marker.getPosition();
+                refPonto = mRef.child("motorista");
+                refPonto.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                            final String enderecoOnibus = objSnapshot.child("nomeMotorista").getValue().toString();
+                            final Double latitudeOnibus = (Double) objSnapshot.child("latitude").getValue();
+                            final Double longitudeOnibus = (Double) objSnapshot.child("longitude").getValue();
+                            LatLng latLngOnibus = new LatLng(latitudeOnibus,longitudeOnibus);
+                            Marker markerOnibus = mMap.addMarker(new MarkerOptions().title(enderecoOnibus).position(latLngOnibus).icon(BitmapDescriptorFactory.defaultMarker()));
+                            desenhaRota(marker.getPosition(),latLngOnibus,"via:-26.930839,-48.934213|via:-26.900647,-49.002456");
+
+                            for (int i=0; i<pontosModelArrayList.size(); i++){
+                                LatLng locPonto = new LatLng(
+                                        pontosModelArrayList.get(i).getLatitude(),
+                                        pontosModelArrayList.get(i).getLogitude());
+                                String enderecoPonto = pontosModelArrayList.get(i).getEndereco();
+                                marcadorPonto = mMap.addMarker(new MarkerOptions()
+                                        .position(locPonto)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black))
+                                        .title(enderecoPonto));
+                            }
+
+                        }}
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.w("TAG", "Failed to read value.", databaseError.toException());
+                    }
+                });
             }
         });
-
-
-
 
     }
 
@@ -356,11 +417,6 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                     pontosModelArrayList.add(new PontosModel(enderecoPonto, latitudePonto, longitudePonto));
 
                     LatLng latLngPonto = new LatLng(latitudePonto, longitudePonto);
-
-                    marcadorPonto = mMap.addMarker(new MarkerOptions()
-                            .position(latLngPonto)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black))
-                            .title(enderecoPonto));
                 }
             }
 

@@ -56,13 +56,6 @@ import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
 public class Home_icab extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener {
 
 
-    private double radius = 2000;
-
-
-
-    private static final String KEY_CAMERA_POSITION = "camera_position";
-    private static final String KEY_LOCATION = "location";
-
     private static final int REQUEST_CODE_PERMISSION = 2;
     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -71,9 +64,6 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     double latitudeUser;
     double longitudeUser;
 
-    public Marker markerOnibus;
-
-
     private ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
 
@@ -81,7 +71,6 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     private Toolbar toolbar;
     DatabaseReference refPonto;
     DatabaseReference mRef;
-
 
     public void inicializarFireBase() {
         FirebaseApp.initializeApp(Home_icab.this);
@@ -135,6 +124,39 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
         }else{
             gps.showSettingsAlert();
         }
+
+    }
+
+
+
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
+
+
+        mMap = googleMap;
+
+        LatLng latLng = new LatLng(latitudeUser,longitudeUser);
+
+
+
+        // create marker
+        final MarkerOptions marker = new MarkerOptions().position(latLng).title("Set Pickup Point");
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.location));
+        // adding marker
+        googleMap.addMarker(marker);
+
+
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(
+               latLng).zoom(16).build();
+
+
+        googleMap.animateCamera(
+                CameraUpdateFactory.newCameraPosition(cameraPosition));
+
         if (refPonto != null) {
             refPonto.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -144,10 +166,11 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
                         final Double latitudeOnibus = (Double) objSnapshot.child("latitude").getValue();
                         final Double longitudeOnibus = (Double) objSnapshot.child("longitude").getValue();
                         LatLng coordenadaOnibus = new LatLng(latitudeOnibus,longitudeOnibus);
+                        mMap.clear();
 
-                        MarkerOptions markerOptions = new MarkerOptions().title(linhaOnibus).position(coordenadaOnibus).icon(BitmapDescriptorFactory.defaultMarker());
-                        mMap.addMarker(markerOptions);
 
+
+                        Log.d("TAG", "posicao onibus: " + coordenadaOnibus + " Linha: " + linhaOnibus);
 
                     }
 
@@ -162,37 +185,8 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
             });
 
         }
-    }
 
 
-
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-
-        mMap = googleMap;
-
-        LatLng latLng = new LatLng(latitudeUser,longitudeUser);
-
-
-
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(latLng).title("Set Pickup Point");
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.location));
-        // adding marker
-        googleMap.addMarker(marker);
-
-
-        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(
-               latLng).zoom(16).build();
-
-
-        googleMap.animateCamera(
-                CameraUpdateFactory.newCameraPosition(cameraPosition));
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         setToolbar();

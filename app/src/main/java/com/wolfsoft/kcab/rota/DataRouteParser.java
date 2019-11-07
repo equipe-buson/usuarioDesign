@@ -46,6 +46,8 @@ public class DataRouteParser {
                 JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
                 JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
                 String distance = jsonDistance.getString("text");
+                String duration = jsonDuration.getString("text");
+                Log.d("tag","Duração: " + duration);
 
 
 
