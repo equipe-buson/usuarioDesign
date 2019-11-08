@@ -23,6 +23,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -144,6 +147,17 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
 
     }
 
+    public void addFragment(Fragment fragment, boolean addToBackStack, String tag) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+
+        if (addToBackStack) {
+            ft.addToBackStack(tag);
+        }
+        ft.replace(R.id.layout, fragment, tag);
+        ft.commitAllowingStateLoss();
+    }
+
 
 
 
@@ -239,6 +253,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                addFragment(new In_Ride_icab(),false,"one");
 //                markerInfoWindowAdapter.getInfoContents(marker);
                 marker.showInfoWindow();
                 LatLng posicaoMarcador = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);

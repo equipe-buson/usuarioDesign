@@ -26,7 +26,7 @@ public class InfoWindowBusStopAdapter implements GoogleMap.InfoWindowAdapter{
     public View getInfoContents(Marker marker) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v =  inflater.inflate(R.layout.infowindowbusstop, null);
+        View v =  inflater.inflate(R.layout.infowindow_busstop, null);
 
         TextView tvClique = v.findViewById(R.id.cliqueparaselecionar);
         TextView tvLinha = v.findViewById(R.id.endereco);
