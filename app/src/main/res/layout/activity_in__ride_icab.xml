@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wolfsoft.kcab.In_Ride_icab"
+    tools:context="com.wolfsoft.kcab.adapter.InRideAdapter"
     android:id="@+id/inridemenu">
 
     <FrameLayout

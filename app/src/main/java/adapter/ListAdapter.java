@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.wolfsoft.kcab.Book_icab;
 import com.wolfsoft.kcab.Home_icab;
-import com.wolfsoft.kcab.In_Ride_icab;
 import com.wolfsoft.kcab.Login_icab;
 import com.wolfsoft.kcab.Menu_icab1;
 import com.wolfsoft.kcab.R;
@@ -63,7 +62,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     Intent i = new Intent(context, Book_icab.class);
                     context.startActivity(i);}
                 if(position==4){
-                    Intent i = new Intent(context, In_Ride_icab.class);
+                    Intent i = new Intent(context, InRideAdapter.class);
                     context.startActivity(i);}
 
                 if(position==5){

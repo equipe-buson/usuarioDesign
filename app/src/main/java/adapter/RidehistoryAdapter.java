@@ -28,17 +28,11 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
     Context context;
 
     private int posicao;
-
-
-
     public static int rota;
-
-
 
     public int getPosicao() {
         return posicao;
     }
-
 
 
     public ArrayList<RidehistoryModel> getRidehistoryModelArrayList() {

@@ -50,9 +50,12 @@ import com.wolfsoft.kcab.rota.DrawRouteMaps;
 
 import java.util.ArrayList;
 
+import adapter.InRideAdapter;
 import adapter.InfoWindowBusStopAdapter;
 import adapter.RidehistoryAdapter;
 import model.PontosModel;
+
+import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
 
 public class Home_Travel extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
@@ -253,7 +256,9 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                addFragment(new In_Ride_icab(),false,"one");
+                addFragment(new InRide(), false,"one");
+
+                DrawRouteMaps.getInstance(getContext()).draw(marker.getPosition(), latLngUser, mMap,"via:-26.900652,-49.002985");
 //                markerInfoWindowAdapter.getInfoContents(marker);
                 marker.showInfoWindow();
                 LatLng posicaoMarcador = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
@@ -396,9 +401,8 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
             if (rota == 1) {
                 ref = "Blumenau-Ilhota";
                 origin = new LatLng(-26.906101, -49.077743);
-                destination = new LatLng(-26.910984,-48.86465);
+                destination = new LatLng(-26.910984, -48.86465);
                 waipoints = "via:-26.925929,-49.056093|via:-26.900647,-49.002456";
-
             }
             if (rota == 2) {
                 ref = "Ilhota-Blumenau";
@@ -416,7 +420,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                 ref = "Gaspar-Blumenau";
                 origin = new LatLng(-26.955587,-48.926634);
                 destination = new LatLng(-26.904585,-49.077374);
-                waipoints = "via:-26.900652, -49.002985";
+                waipoints = "via:-26.900652,-49.002985";
             }
             desenhaRota(origin,destination,waipoints);
 

@@ -3,6 +3,7 @@ package com.wolfsoft.kcab.rota;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.wolfsoft.kcab.InRide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +22,11 @@ import java.util.List;
  * @Web http://ahmadrosid.com
  */
 public class DataRouteParser {
+    String distance;
+    String duration;
+    InRide inRide = new InRide();
+
+
 
     /**
      * Receives a JSONObject and returns a list of lists containing latitude and longitude
@@ -45,9 +51,11 @@ public class DataRouteParser {
                 JSONObject jsonDuration = jsonLeg.getJSONObject("duration");
                 JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
                 JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
-                String distance = jsonDistance.getString("text");
-                String duration = jsonDuration.getString("text");
-                Log.d("tag","Duração: " + duration);
+
+                inRide.setDistanceUrl(jsonDistance.getString("text"));
+                inRide.setTimeUrl(jsonDuration.getString("text"));
+                Log.d("tag","Duração: " + jsonDistance.getString("text"));
+                Log.d("tag","Distancia: " + jsonDuration.getString("text"));
 
 
 
@@ -129,4 +137,5 @@ public class DataRouteParser {
 
         return poly;
     }
+
 }

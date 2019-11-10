@@ -101,24 +101,6 @@ public class  Ride_History_iCab extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        GPSTracker gps = new GPSTracker(Ride_History_iCab.this);
-
-        // check if GPS enabled
-        if(gps.canGetLocation()){
-
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-
-            // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
-                    + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-            Log.d("TAG", String.valueOf(latitude));
-            Log.d("TAG", String.valueOf(longitude));
-        }else{
-            gps.showSettingsAlert();
-        }
-
-
 
         refPonto.addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,7 +109,6 @@ public class  Ride_History_iCab extends AppCompatActivity {
                 for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
                     final String loc = objSnapshot.child("nome").getValue().toString();
                     final String valor = objSnapshot.child("valor").getValue().toString();
-                    // valor = txthome       nome = txtxmall
                     RidehistoryModel listModel = new RidehistoryModel(i1[1],i2[1],i3[1],loc,valor);
                     ridehistoryModelArrayList.add(listModel);
 

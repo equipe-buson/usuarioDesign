@@ -28,7 +28,7 @@
         <activity android:name=".Ride_History_iCab" />
         <activity android:name=".Activity_list" />
         <activity android:name=".Book_icab" />
-        <activity android:name=".In_Ride_icab" />
+        <activity android:name="adapter.InRideAdapter" />
         <activity android:name=".Menu_icab" />
         <activity android:name=".Home_Travel" />
         <activity android:name=".SplashScreen">
