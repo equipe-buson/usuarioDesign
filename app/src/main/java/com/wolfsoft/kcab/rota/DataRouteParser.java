@@ -52,11 +52,6 @@ public class DataRouteParser {
                 JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
                 JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
 
-                inRide.setDistanceUrl(jsonDistance.getString("text"));
-                inRide.setTimeUrl(jsonDuration.getString("text"));
-                Log.d("tag","Duração: " + jsonDistance.getString("text"));
-                Log.d("tag","Distancia: " + jsonDuration.getString("text"));
-
 
 
 

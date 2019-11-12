@@ -1,40 +1,44 @@
 package com.wolfsoft.kcab;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.wolfsoft.kcab.rota.DataRouteParser;
-import com.wolfsoft.kcab.rota.DrawRouteMaps;
-import com.wolfsoft.kcab.rota.FetchUrl;
-
-import java.util.ArrayList;
-
-import model.InRideModel;
+import com.wolfsoft.kcab.calculaRota.DrawRoute;
+import com.wolfsoft.kcab.calculaRota.FetchUrl;
 
 public class InRide extends Fragment {
     TextView distance, time;
 
 
-    public static String distanceUrl, timeUrl;
+    public static String distanceUrl;
+    public static String timeUrl;
 
+    public static String getUrl() {
+        return url;
+    }
 
+    public static void setUrl(String url) {
+        InRide.url = url;
+    }
+
+    public static String url;
+    DrawRoute drawRoute;
 
     public InRide(){
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
     }
 
@@ -50,6 +54,7 @@ public class InRide extends Fragment {
         time = view.findViewById(R.id.time);
         distance.setText(getDistanceUrl());
         time.setText(getTimeUrl());
+        Log.d("tag", "onCreate");
     }
 
     public static String getDistanceUrl() {
