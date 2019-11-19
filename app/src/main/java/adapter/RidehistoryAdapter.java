@@ -61,8 +61,6 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
     @Override
     public void onBindViewHolder(@NonNull RidehistoryAdapter.ViewHolder holder, int position) {
         holder.i1.setImageResource(ridehistoryModelArrayList.get(position).getI1());
-        holder.i2.setImageResource(ridehistoryModelArrayList.get(position).getI2());
-        holder.i3.setImageResource(ridehistoryModelArrayList.get(position).getI3());
         holder.txtlinha.setText(ridehistoryModelArrayList.get(position).getTxtlinha());
     }
 
@@ -73,15 +71,13 @@ public class RidehistoryAdapter extends RecyclerView.Adapter<RidehistoryAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView i1,i2,i3;
+        ImageView i1;
         TextView txtlinha;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             i1=itemView.findViewById(R.id.i1);
-            i2=itemView.findViewById(R.id.i2);
-            i3=itemView.findViewById(R.id.i3);
             txtlinha=itemView.findViewById(R.id.txtlinha);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

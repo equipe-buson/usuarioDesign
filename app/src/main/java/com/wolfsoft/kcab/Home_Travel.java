@@ -50,11 +50,11 @@ import com.wolfsoft.kcab.rota.DrawRouteMaps;
 
 import java.util.ArrayList;
 
-import adapter.InRideAdapter;
 import adapter.InfoWindowBusStopAdapter;
 import adapter.RidehistoryAdapter;
 import model.PontosModel;
 
+import static adapter.RidehistoryAdapter.rota;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.*;
 import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
 
@@ -245,7 +245,10 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                com.wolfsoft.kcab.calculaRota.DrawRouteMaps.getInstance(getContext()).draw(marker.getPosition(), latLngUser, mMap,"via:-26.900652,-49.002985");
+                String waipoints = comparaLatLng(marker.getPosition());
+                mMap.clear();
+                com.wolfsoft.kcab.calculaRota.DrawRouteMaps.getInstance(getContext()).draw(marker.getPosition(), latLngUser, mMap,waipoints);
+                DrawRouteMaps.getInstance(getContext()).draw(marker.getPosition(),latLngUser,mMap,waipoints);
 
 //                markerInfoWindowAdapter.getInfoContents(marker);
                 marker.showInfoWindow();
@@ -263,6 +266,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(final Marker marker) {
+                addFragment(new InRide(),false,"one");
                 marker.getPosition();
                 refPonto = mRef.child("motorista");
                 refPonto.addValueEventListener(new ValueEventListener() {
@@ -373,7 +377,6 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
     public void selecionaRota(){
         FirebaseApp.initializeApp(Home_Travel.this);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginfire-23a07.firebaseio.com/");
-        int rota = ridehistoryAdapter.getRota();
         String ref = "";
         LatLng origin = new LatLng(0,0);
         LatLng destination = new LatLng(0,0);
@@ -382,7 +385,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                 ref = "Blumenau-Ilhota";
                 origin = new LatLng(-26.906101, -49.077743);
                 destination = new LatLng(-26.910984,-48.86465);
-                waipoints = "via:-26.925929,-49.056093|via:-26.900647,-49.002456";
+                waipoints = "via:-26.925929,-49.056093|via:-26.900647,-49.002856";
 
             }
             if (rota == 2) {
@@ -415,7 +418,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                     final Double longitudePonto = (Double) objSnapshot.child("longitude").getValue();
 
                     pontosModelArrayList.add(new PontosModel(enderecoPonto, latitudePonto, longitudePonto));
-                    marcadorPonto =mMap.addMarker(new MarkerOptions().position(new LatLng(latitudePonto, longitudePonto)).title(enderecoPonto).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black)));
+                    marcadorPonto =mMap.addMarker(new MarkerOptions().position(new LatLng(latitudePonto, longitudePonto)).title(enderecoPonto).icon(BitmapDescriptorFactory.fromResource(R.drawable.pontoo)));
                 }
             }
 
@@ -439,6 +442,36 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         Point displaySize = new Point();
         getWindowManager().getDefaultDisplay().getSize(displaySize);
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, 250, 30));
+    }
+
+    public String comparaLatLng(LatLng position){
+        String waipoints = "via:";
+        int i;
+        if (rota == 1){
+            i = 0;
+            if (position.longitude <= -49.055093) {
+                waipoints += "via:-26.925929,-49.056093|via:-26.900647,-49.002856";
+                i=1;
+                Log.d("tag", "completo");
+            }
+            if (position.longitude <= -49.002456){
+                if (i!=1) {
+                    waipoints += "via:-26.900647,-49.002856";
+                    Log.d("tag", "Bela");
+                }
+            }
+        }
+        if (rota == 2){
+
+        }
+        if (rota == 3){
+
+        }
+        if (rota == 4){
+
+        }
+        return waipoints;
+
     }
 
 

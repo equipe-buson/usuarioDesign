@@ -7,17 +7,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="92.2dp"
-        app:cardCornerRadius="5.8dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="19.3dp"
         android:layout_marginTop="18.7dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginRight="12.1dp"
-        app:cardBackgroundColor="#18C78C">
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="#DCDCDC"
+        app:cardCornerRadius="5.8dp">
 
 
         <LinearLayout
@@ -34,35 +33,21 @@
 
                 <ImageView
                     android:id="@+id/i1"
-                    android:layout_marginTop="16.3dp"
-                    android:layout_marginLeft="14.4dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/pin_black"/>
-
-                <ImageView
-                    android:id="@+id/i2"
-                    android:layout_marginLeft="26dp"
-                    android:layout_width="2dp"
-                    android:layout_height="26.9dp"
-                    android:src="@drawable/rect_dotted"
-                    android:layerType="software"/>
+                    android:layout_marginLeft="12.4dp"
+                    android:layout_marginTop="12.3dp"
+                    android:src="@drawable/pin_black" />
 
 
-                <ImageView
-                    android:id="@+id/i3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/navigatiob_blue"
-                    android:layout_marginLeft="22dp"/>
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="15.4dp">
+                android:layout_marginTop="15.4dp"
+                android:orientation="vertical">
 
 
                 <customfonts.MyTextView_Roboto_Regular
@@ -87,7 +72,7 @@
             </LinearLayout>
 
 
-</LinearLayout>
+        </LinearLayout>
 
 
     </androidx.cardview.widget.CardView>
