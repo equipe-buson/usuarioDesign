@@ -245,8 +245,8 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                String waipoints = comparaLatLng(marker.getPosition());
                 mMap.clear();
+                String waipoints = comparaLatLng(marker.getPosition());
                 com.wolfsoft.kcab.calculaRota.DrawRouteMaps.getInstance(getContext()).draw(marker.getPosition(), latLngUser, mMap,waipoints);
                 DrawRouteMaps.getInstance(getContext()).draw(marker.getPosition(),latLngUser,mMap,waipoints);
 
@@ -392,7 +392,7 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
                 ref = "Ilhota-Blumenau";
                 origin = new LatLng(-26.910706, -48.864301);
                 destination = new LatLng(-26.904585,-49.077374);
-                waipoints = "via:-26.930839,-48.934213|via:-26.900647,-49.002456";
+                waipoints = "via:-26.930839,-48.934213|via:-26.900647,-49.002848";
             }
             if (rota == 3) {
                 ref = "Blumenau-Gaspar";
@@ -450,25 +450,55 @@ public class Home_Travel extends AppCompatActivity implements NavigationView.OnN
         if (rota == 1){
             i = 0;
             if (position.longitude <= -49.055093) {
-                waipoints += "via:-26.925929,-49.056093|via:-26.900647,-49.002856";
+                waipoints += "-26.925929,-49.056093|via:-26.900647,-49.002856";
                 i=1;
                 Log.d("tag", "completo");
             }
             if (position.longitude <= -49.002456){
                 if (i!=1) {
-                    waipoints += "via:-26.900647,-49.002856";
+                    waipoints += "|via:-26.900647,-49.002856";
                     Log.d("tag", "Bela");
                 }
             }
         }
         if (rota == 2){
+            i = 0;
+            if (position.longitude <= -48.931999) {
+                waipoints += "-26.930839,-48.934213|via:-26.900647,-49.002456";
+                i=1;
+                Log.d("tag", "completo");
+            }
+            if (position.longitude <= -49.002456){
+                if (i!=1) {
+                    waipoints += "|via:-26.900647,-49.002848";
+                    Log.d("tag", "Bela");
+                }
+            }
 
         }
         if (rota == 3){
+            i = 0;
+            if (position.longitude <= -49.055093) {
+                waipoints += "-26.925929,-49.056093|via:-26.900647,-49.002534";
+                i=1;
+                Log.d("tag", "completo");
+            }
+            if (position.longitude <= -49.002534){
+                if (i!=1) {
+                    waipoints += "|via:-26.900647,-49.002456";
+                    Log.d("tag", "Bela");
+                }
+            }
 
         }
         if (rota == 4){
-
+            i = 0;
+            if (position.longitude <= -49.055093) {
+                waipoints += "-26.900652,-49.002985";
+                Log.d("tag", "completo");
+            }else {
+                Log.d("tag", "parcial");
+            }
         }
         return waipoints;
 
