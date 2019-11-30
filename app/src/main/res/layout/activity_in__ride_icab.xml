@@ -55,35 +55,35 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="19.3dp"
-                            android:text="Steve Rogers"
+                            android:text="Gustavo"
                             android:textColor="#323643"
                             android:textSize="13.4sp" />
 
-                        <RatingBar
-                            android:id="@+id/rtbHighScore"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_weight="1"
-                            android:isIndicator="false"
-                            android:max="100"
-                            android:minHeight="10dp"
-                            android:numStars="5"
-                            android:progressTint="#ffba00"
-                            android:rating="3"
-                            android:stepSize="0.2" />
+<!--                        <RatingBar-->
+<!--                            android:id="@+id/rtbHighScore"-->
+<!--                            style="?android:attr/ratingBarStyleSmall"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="5dp"-->
+<!--                            android:layout_marginBottom="5dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:isIndicator="false"-->
+<!--                            android:max="100"-->
+<!--                            android:minHeight="10dp"-->
+<!--                            android:numStars="5"-->
+<!--                            android:progressTint="#ffba00"-->
+<!--                            android:rating="3"-->
+<!--                            android:stepSize="0.2" />-->
                     </LinearLayout>
 
                     <customfonts.MyTextView_Roboto_Regular
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="45dp"
+                        android:layout_marginLeft="75dp"
                         android:layout_marginTop="27dp"
                         android:layout_marginRight="8dp"
-                        android:background="@drawable/rect_blue1"
-                        android:text="Call Driver"
+                        android:background="#18C78C"
+                        android:text="Selecionar"
                         android:textColor="#fbfbfb"
                         android:textSize="15.4sp" />
                 </LinearLayout>
@@ -159,14 +159,14 @@
                         <customfonts.MyTextView_Roboto_Regular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ETA"
+                            android:text="Valor"
                             android:textColor="#99606470"
                             android:textSize="11.5sp" />
 
                         <customfonts.MyTextView_Roboto_Regular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="14:29"
+                            android:text="R$0.00"
                             android:textColor="#323643"
                             android:textSize="11.4sp" />
 
@@ -178,20 +178,9 @@
                         android:layout_marginLeft="40dp"
                         android:orientation="vertical">
 
-                        <customfonts.MyTextView_Roboto_Regular
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Payment"
-                            android:textColor="#99606470"
-                            android:textSize="11.5sp" />
 
-                        <customfonts.MyTextView_Roboto_Regular
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Cash"
-                            android:textColor="#323643"
-                            android:textSize="11.4sp" />
-                    </LinearLayout>
+
+                        </LinearLayout>
 
 
                 </LinearLayout>

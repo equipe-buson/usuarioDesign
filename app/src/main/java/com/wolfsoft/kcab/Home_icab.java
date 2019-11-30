@@ -53,7 +53,7 @@ import model.PontosModel;
 
 import static com.wolfsoft.kcab.rota.DrawRouteMaps.getContext;
 
-public class Home_icab extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, OnMarkerClickListener {
+public class Home_icab extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
 
     private static final int REQUEST_CODE_PERMISSION = 2;
@@ -141,51 +141,21 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
 
 
 
+
         // create marker
-        final MarkerOptions marker = new MarkerOptions().position(latLng).title("Set Pickup Point");
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.location));
+        final MarkerOptions marker = new MarkerOptions().position(latLng).title("Posição Atual");
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black));
         // adding marker
         googleMap.addMarker(marker);
 
 
-        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_black));
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(
                latLng).zoom(16).build();
 
 
-        googleMap.animateCamera(
-                CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        if (refPonto != null) {
-            refPonto.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                        final String linhaOnibus = objSnapshot.child("linha").getValue().toString();
-                        final Double latitudeOnibus = (Double) objSnapshot.child("latitude").getValue();
-                        final Double longitudeOnibus = (Double) objSnapshot.child("longitude").getValue();
-                        LatLng coordenadaOnibus = new LatLng(latitudeOnibus,longitudeOnibus);
-                        mMap.clear();
-
-
-
-                        Log.d("TAG", "posicao onibus: " + coordenadaOnibus + " Linha: " + linhaOnibus);
-
-                    }
-
-                }
-
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.w("TAG", "Failed to read value.", databaseError.toException());
-                }
-
-            });
-
-        }
-
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -216,14 +186,6 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
 
 
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Log.d("TAG","Marcador clicado");
-              return true;
-            }
-        }
-        );
 
     }
     @Override
@@ -298,11 +260,6 @@ public class Home_icab extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
     }
 
 
